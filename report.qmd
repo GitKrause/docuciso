@@ -1,0 +1,201 @@
+---
+title: "Implementación de CISO-18 y su impacto estadístico"
+subtitle: "Plantilla Quarto para Word (estructura base)"
+author: "Alvaro Marcelo Krause Salazar"
+date: last-modified
+lang: es
+format:
+  html:
+    toc: true
+    number-sections: true
+  pdf:
+    toc: true
+    number-sections: true
+  docx:
+    clean: true
+    toc: true
+    number-sections: true
+    reference-doc: reference-doc.docx
+bibliography: references.bib
+nocite: '@*'
+---
+
+::: callout-note
+**Nota**: Esta plantilla usa la denominación **CISO-18** tal como la requieres. Si en algún momento necesitas alinearla con la nomenclatura internacional (**ICSE‑18**), basta con reemplazar el término en los encabezados.
+:::
+
+# Presentación
+
+> **Objetivo**. Este documento presenta la adopción y aplicación de la clasificación **CISO‑18** en la ENE, proponiendo el algoritmo operativo, la identificación y caracterización de **contratistas dependientes**, y el impacto esperado en la medición de la **informalidad laboral**.
+
+> **Estructura**. El informe se organiza en seis capítulos y un anexo de referencias.
+
+# Antecedentes y aspectos conceptuales de la clasificación CISO-18
+
+-   Contexto CIET‑20 (2018) y resoluciones sobre relaciones de trabajo. Este estudio utiliza datos de registros administrativos[^1] (más texto)
+
+[^1]: Los registros administrativos fueron validados por el INE en enero de 2026.
+
+-   Fundamentos conceptuales: **tipo de autoridad** y **riesgo económico**.
+-   Relación con CISeT‑18 (todas las formas de trabajo) y con CISE‑93.
+
+# Definición del algoritmo para la aplicación de la CISO-18
+
+## Preguntas existentes
+
+-   Inventario de variables ENE relevantes (listar nombres de variables y periodos de vigencia).
+-   Mapeo de preguntas a dimensiones de **autoridad**/**riesgo económico**.
+
+## Preguntas incorporadas al cuestionario
+
+-   Nuevos ítems para capturar **dependencia económica**, **control del trabajo**, **propiedad de medios**, **número/tipo de clientes**.
+-   Especificar texto de pregunta, universo, saltos lógicos y opciones de respuesta.
+
+## Preguntas previamente existentes en la encuesta
+
+-   Ítems históricos reutilizables y su recodificación.
+-   Consideraciones de **comparabilidad** temporal.
+
+## 2.4. Definición del algoritmo para la aplicación de la CISO-18
+
+-   Reglas de **edición/validación**.
+-   Filtros previos y población objetivo.
+-   Árbol de decisión y **prioridad de reglas** (pseudocódigo/quarto code chunk a insertar).
+
+## 2.5. Análisis estadístico para evaluar las variables de dependencia
+
+-   Evaluación de **confiabilidad** y **validez** (p. ej., VIF, correlaciones, modelos logit/probit auxiliares).
+-   Sensibilidad a umbrales (análisis de **robustez**).
+
+## 2.6. Tratamiento de trabajadores en plataformas digitales
+
+-   Criterios de identificación.
+-   Casos fronterizos y clasificación prioritaria bajo CISO‑18.
+
+# 3. Estimación y caracterización de contratistas dependientes
+
+## 3.1. Identificación contratistas dependientes dentro de los trabajadores por cuenta propia
+
+-   Algoritmo de detección y reglas de reasignación.
+-   Indicadores de dependencia económica.
+
+## 3.2. Identificación contratistas dependientes dentro de los trabajadores asalariados
+
+-   Casos de **subordinación contractual** vs. **dependencia económica**.
+
+## 3.3. Estimación total de contratistas dependientes
+
+-   Serie trimestral/anual, supuestos y métodos de estimación.
+
+## 3.4. Impacto en la clasificación final CISE-93 vs CISO-18
+
+-   Reasignaciones netas por categoría.
+-   Efectos sobre tasas y composiciones.
+
+## 3.5. Caracterización de los contratistas dependientes
+
+-   Distribuciones por **sexo**, **edad**, **nacionalidad**, **región**, **rama de actividad**, **oficio** e **informalidad**.
+
+# 4. Impacto en la medición de informalidad laboral
+
+## 4.1. Criterios adoptados en la ENE desde 2017
+
+-   Definición operativa y sus limitaciones.
+
+## 4.2. Nueva resolución sobre estadísticas de Economía Informal – 21° CIET 2023
+
+-   Cambios conceptuales y su articulación con CISO‑18.
+
+## 4.3. Informalidad en contratistas dependientes proveniente de los TCP
+
+-   Procedimiento de identificación y resultados esperados.
+
+## 4.4. Implementación CISO-18 e impacto medición de informalidad laboral
+
+-   Escenarios de impacto (mínimo/base/máximo) y notas metodológicas.
+
+# 5. Construcción tercer nivel jerárquico CISO-18
+
+## 5.1. Empleadores y Trabajadores por cuenta propia
+
+-   Criterios para sub‑clasificación y variables auxiliares.
+
+## 5.2. Contratistas dependientes
+
+-   Subtipificación por **fuente principal de ingresos**, **número de clientes** y **grado de control**.
+
+## 5.3. Asalariados privados, públicos y servicio doméstico
+
+-   Definiciones y criterios de separación operativa.
+
+## 5.4. Caracterización del tercer nivel jerárquico CISO-18
+
+-   Indicadores descriptivos y tabulados estándar.
+
+## 5.5. Tercer nivel jerárquico: Tipo de contrato definido
+
+-   Permanente, plazo fijo, corto plazo/ocasional, aprendizaje/práctica remunerada.
+
+## 5.6. Recomendaciones sobre el análisis del tercer nivel jerárquico de la CISO-18
+
+-   Buenas prácticas, advertencias y notas de comparabilidad.
+
+# 6. Plan de difusión
+
+## 6.1. Eje 1: Difusión público-experto (expertos/instituciones, comité técnico, medios de comunicación y ciudadana)
+
+-   Estrategia y productos prioritarios.
+
+## 6.2. Eje 2: Difusión de insumos (boletín, bases de datos, tabulados)
+
+-   Calendario y especificaciones de publicación.
+
+## 6.3. Eje 3: Difusión en plataformas (Banco de datos ENE y SIMEL)
+
+-   Variables nuevas, metadatos y documentación.
+
+## 6.4. Eje 4: Difusión información complementaria (infografías, documentos de trabajo y separata técnica)
+
+-   Materiales de apoyo y mensajes clave.
+
+------------------------------------------------------------------------
+
+## Tablas de referencia
+
+::: {#tbl-cise93 tbl-cap="CISE-93: Grupos principales"}
+**Tabla 1. CISE‑93 — Grupos principales**
+
+**Empleo remunerado**\
+1. Empleados
+
+**Empleo independiente**\
+2. Empleadores\
+3. Trabajadores por cuenta propia\
+4. Trabajadores familiares auxiliares\
+5. Miembros de cooperativas de productores\
+6. No clasificados por situación en el empleo
+:::
+
+::: {#tbl-ciso18a tbl-cap="CISO-18 (tipo de autoridad): categorías"}
+**Tabla 2. Clasificación CISO‑18‑A (según tipo de autoridad)**
+
+**Trabajadores independientes**\
+A1. Empleadores\
+- 11 — Empleadores en sociedades\
+- 12 — Empleadores en empresas del sector de los hogares\
+A2. Independientes sin empleados\
+- 21 — Gerentes‑propietarios en sociedades sin empleados\
+- 22 — Cuenta propia en empresas del sector de los hogares sin empleados
+
+**Trabajadores dependientes**\
+B1. Contratistas dependientes\
+- 30 — Contratistas dependientes\
+B2. Empleados\
+- 41 — Permanentes\
+- 42 — Por tiempo determinado\
+- 43 — Corto plazo y ocasionales\
+- 44 — Aprendices, pasantes y personas en formación remunerados
+
+**Trabajo familiar auxiliar en actividades de mercado**\
+- 51 — Trabajadores familiares auxiliares en actividades de mercado
+:::

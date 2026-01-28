@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alvaro Marcelo Krause Salazar">
+
+<title>Implementación de CISO-18 y su impacto estadístico</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="report_files/libs/quarto-html/quarto.js"></script>
+<script src="report_files/libs/quarto-html/popper.min.js"></script>
+<script src="report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#presentación" id="toc-presentación" class="nav-link active" data-scroll-target="#presentación"><span class="header-section-number">1</span> Presentación</a></li>
+  <li><a href="#antecedentes-y-aspectos-conceptuales-de-la-clasificación-ciso-18" id="toc-antecedentes-y-aspectos-conceptuales-de-la-clasificación-ciso-18" class="nav-link" data-scroll-target="#antecedentes-y-aspectos-conceptuales-de-la-clasificación-ciso-18"><span class="header-section-number">2</span> Antecedentes y aspectos conceptuales de la clasificación CISO-18</a></li>
+  <li><a href="#definición-del-algoritmo-para-la-aplicación-de-la-ciso-18" id="toc-definición-del-algoritmo-para-la-aplicación-de-la-ciso-18" class="nav-link" data-scroll-target="#definición-del-algoritmo-para-la-aplicación-de-la-ciso-18"><span class="header-section-number">3</span> Definición del algoritmo para la aplicación de la CISO-18</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-existentes" id="toc-preguntas-existentes" class="nav-link" data-scroll-target="#preguntas-existentes"><span class="header-section-number">3.1</span> Preguntas existentes</a></li>
+  <li><a href="#preguntas-incorporadas-al-cuestionario" id="toc-preguntas-incorporadas-al-cuestionario" class="nav-link" data-scroll-target="#preguntas-incorporadas-al-cuestionario"><span class="header-section-number">3.2</span> Preguntas incorporadas al cuestionario</a></li>
+  <li><a href="#preguntas-previamente-existentes-en-la-encuesta" id="toc-preguntas-previamente-existentes-en-la-encuesta" class="nav-link" data-scroll-target="#preguntas-previamente-existentes-en-la-encuesta"><span class="header-section-number">3.3</span> Preguntas previamente existentes en la encuesta</a></li>
+  <li><a href="#definición-del-algoritmo-para-la-aplicación-de-la-ciso-18-1" id="toc-definición-del-algoritmo-para-la-aplicación-de-la-ciso-18-1" class="nav-link" data-scroll-target="#definición-del-algoritmo-para-la-aplicación-de-la-ciso-18-1"><span class="header-section-number">3.4</span> 2.4. Definición del algoritmo para la aplicación de la CISO-18</a></li>
+  <li><a href="#análisis-estadístico-para-evaluar-las-variables-de-dependencia" id="toc-análisis-estadístico-para-evaluar-las-variables-de-dependencia" class="nav-link" data-scroll-target="#análisis-estadístico-para-evaluar-las-variables-de-dependencia"><span class="header-section-number">3.5</span> 2.5. Análisis estadístico para evaluar las variables de dependencia</a></li>
+  <li><a href="#tratamiento-de-trabajadores-en-plataformas-digitales" id="toc-tratamiento-de-trabajadores-en-plataformas-digitales" class="nav-link" data-scroll-target="#tratamiento-de-trabajadores-en-plataformas-digitales"><span class="header-section-number">3.6</span> 2.6. Tratamiento de trabajadores en plataformas digitales</a></li>
+  </ul></li>
+  <li><a href="#estimación-y-caracterización-de-contratistas-dependientes" id="toc-estimación-y-caracterización-de-contratistas-dependientes" class="nav-link" data-scroll-target="#estimación-y-caracterización-de-contratistas-dependientes"><span class="header-section-number">4</span> 3. Estimación y caracterización de contratistas dependientes</a>
+  <ul class="collapse">
+  <li><a href="#identificación-contratistas-dependientes-dentro-de-los-trabajadores-por-cuenta-propia" id="toc-identificación-contratistas-dependientes-dentro-de-los-trabajadores-por-cuenta-propia" class="nav-link" data-scroll-target="#identificación-contratistas-dependientes-dentro-de-los-trabajadores-por-cuenta-propia"><span class="header-section-number">4.1</span> 3.1. Identificación contratistas dependientes dentro de los trabajadores por cuenta propia</a></li>
+  <li><a href="#identificación-contratistas-dependientes-dentro-de-los-trabajadores-asalariados" id="toc-identificación-contratistas-dependientes-dentro-de-los-trabajadores-asalariados" class="nav-link" data-scroll-target="#identificación-contratistas-dependientes-dentro-de-los-trabajadores-asalariados"><span class="header-section-number">4.2</span> 3.2. Identificación contratistas dependientes dentro de los trabajadores asalariados</a></li>
+  <li><a href="#estimación-total-de-contratistas-dependientes" id="toc-estimación-total-de-contratistas-dependientes" class="nav-link" data-scroll-target="#estimación-total-de-contratistas-dependientes"><span class="header-section-number">4.3</span> 3.3. Estimación total de contratistas dependientes</a></li>
+  <li><a href="#impacto-en-la-clasificación-final-cise-93-vs-ciso-18" id="toc-impacto-en-la-clasificación-final-cise-93-vs-ciso-18" class="nav-link" data-scroll-target="#impacto-en-la-clasificación-final-cise-93-vs-ciso-18"><span class="header-section-number">4.4</span> 3.4. Impacto en la clasificación final CISE-93 vs CISO-18</a></li>
+  <li><a href="#caracterización-de-los-contratistas-dependientes" id="toc-caracterización-de-los-contratistas-dependientes" class="nav-link" data-scroll-target="#caracterización-de-los-contratistas-dependientes"><span class="header-section-number">4.5</span> 3.5. Caracterización de los contratistas dependientes</a></li>
+  </ul></li>
+  <li><a href="#impacto-en-la-medición-de-informalidad-laboral" id="toc-impacto-en-la-medición-de-informalidad-laboral" class="nav-link" data-scroll-target="#impacto-en-la-medición-de-informalidad-laboral"><span class="header-section-number">5</span> 4. Impacto en la medición de informalidad laboral</a>
+  <ul class="collapse">
+  <li><a href="#criterios-adoptados-en-la-ene-desde-2017" id="toc-criterios-adoptados-en-la-ene-desde-2017" class="nav-link" data-scroll-target="#criterios-adoptados-en-la-ene-desde-2017"><span class="header-section-number">5.1</span> 4.1. Criterios adoptados en la ENE desde 2017</a></li>
+  <li><a href="#nueva-resolución-sobre-estadísticas-de-economía-informal-21-ciet-2023" id="toc-nueva-resolución-sobre-estadísticas-de-economía-informal-21-ciet-2023" class="nav-link" data-scroll-target="#nueva-resolución-sobre-estadísticas-de-economía-informal-21-ciet-2023"><span class="header-section-number">5.2</span> 4.2. Nueva resolución sobre estadísticas de Economía Informal – 21° CIET 2023</a></li>
+  <li><a href="#informalidad-en-contratistas-dependientes-proveniente-de-los-tcp" id="toc-informalidad-en-contratistas-dependientes-proveniente-de-los-tcp" class="nav-link" data-scroll-target="#informalidad-en-contratistas-dependientes-proveniente-de-los-tcp"><span class="header-section-number">5.3</span> 4.3. Informalidad en contratistas dependientes proveniente de los TCP</a></li>
+  <li><a href="#implementación-ciso-18-e-impacto-medición-de-informalidad-laboral" id="toc-implementación-ciso-18-e-impacto-medición-de-informalidad-laboral" class="nav-link" data-scroll-target="#implementación-ciso-18-e-impacto-medición-de-informalidad-laboral"><span class="header-section-number">5.4</span> 4.4. Implementación CISO-18 e impacto medición de informalidad laboral</a></li>
+  </ul></li>
+  <li><a href="#construcción-tercer-nivel-jerárquico-ciso-18" id="toc-construcción-tercer-nivel-jerárquico-ciso-18" class="nav-link" data-scroll-target="#construcción-tercer-nivel-jerárquico-ciso-18"><span class="header-section-number">6</span> 5. Construcción tercer nivel jerárquico CISO-18</a>
+  <ul class="collapse">
+  <li><a href="#empleadores-y-trabajadores-por-cuenta-propia" id="toc-empleadores-y-trabajadores-por-cuenta-propia" class="nav-link" data-scroll-target="#empleadores-y-trabajadores-por-cuenta-propia"><span class="header-section-number">6.1</span> 5.1. Empleadores y Trabajadores por cuenta propia</a></li>
+  <li><a href="#contratistas-dependientes" id="toc-contratistas-dependientes" class="nav-link" data-scroll-target="#contratistas-dependientes"><span class="header-section-number">6.2</span> 5.2. Contratistas dependientes</a></li>
+  <li><a href="#asalariados-privados-públicos-y-servicio-doméstico" id="toc-asalariados-privados-públicos-y-servicio-doméstico" class="nav-link" data-scroll-target="#asalariados-privados-públicos-y-servicio-doméstico"><span class="header-section-number">6.3</span> 5.3. Asalariados privados, públicos y servicio doméstico</a></li>
+  <li><a href="#caracterización-del-tercer-nivel-jerárquico-ciso-18" id="toc-caracterización-del-tercer-nivel-jerárquico-ciso-18" class="nav-link" data-scroll-target="#caracterización-del-tercer-nivel-jerárquico-ciso-18"><span class="header-section-number">6.4</span> 5.4. Caracterización del tercer nivel jerárquico CISO-18</a></li>
+  <li><a href="#tercer-nivel-jerárquico-tipo-de-contrato-definido" id="toc-tercer-nivel-jerárquico-tipo-de-contrato-definido" class="nav-link" data-scroll-target="#tercer-nivel-jerárquico-tipo-de-contrato-definido"><span class="header-section-number">6.5</span> 5.5. Tercer nivel jerárquico: Tipo de contrato definido</a></li>
+  <li><a href="#recomendaciones-sobre-el-análisis-del-tercer-nivel-jerárquico-de-la-ciso-18" id="toc-recomendaciones-sobre-el-análisis-del-tercer-nivel-jerárquico-de-la-ciso-18" class="nav-link" data-scroll-target="#recomendaciones-sobre-el-análisis-del-tercer-nivel-jerárquico-de-la-ciso-18"><span class="header-section-number">6.6</span> 5.6. Recomendaciones sobre el análisis del tercer nivel jerárquico de la CISO-18</a></li>
+  </ul></li>
+  <li><a href="#plan-de-difusión" id="toc-plan-de-difusión" class="nav-link" data-scroll-target="#plan-de-difusión"><span class="header-section-number">7</span> 6. Plan de difusión</a>
+  <ul class="collapse">
+  <li><a href="#eje-1-difusión-público-experto-expertosinstituciones-comité-técnico-medios-de-comunicación-y-ciudadana" id="toc-eje-1-difusión-público-experto-expertosinstituciones-comité-técnico-medios-de-comunicación-y-ciudadana" class="nav-link" data-scroll-target="#eje-1-difusión-público-experto-expertosinstituciones-comité-técnico-medios-de-comunicación-y-ciudadana"><span class="header-section-number">7.1</span> 6.1. Eje 1: Difusión público-experto (expertos/instituciones, comité técnico, medios de comunicación y ciudadana)</a></li>
+  <li><a href="#eje-2-difusión-de-insumos-boletín-bases-de-datos-tabulados" id="toc-eje-2-difusión-de-insumos-boletín-bases-de-datos-tabulados" class="nav-link" data-scroll-target="#eje-2-difusión-de-insumos-boletín-bases-de-datos-tabulados"><span class="header-section-number">7.2</span> 6.2. Eje 2: Difusión de insumos (boletín, bases de datos, tabulados)</a></li>
+  <li><a href="#eje-3-difusión-en-plataformas-banco-de-datos-ene-y-simel" id="toc-eje-3-difusión-en-plataformas-banco-de-datos-ene-y-simel" class="nav-link" data-scroll-target="#eje-3-difusión-en-plataformas-banco-de-datos-ene-y-simel"><span class="header-section-number">7.3</span> 6.3. Eje 3: Difusión en plataformas (Banco de datos ENE y SIMEL)</a></li>
+  <li><a href="#eje-4-difusión-información-complementaria-infografías-documentos-de-trabajo-y-separata-técnica" id="toc-eje-4-difusión-información-complementaria-infografías-documentos-de-trabajo-y-separata-técnica" class="nav-link" data-scroll-target="#eje-4-difusión-información-complementaria-infografías-documentos-de-trabajo-y-separata-técnica"><span class="header-section-number">7.4</span> 6.4. Eje 4: Difusión información complementaria (infografías, documentos de trabajo y separata técnica)</a></li>
+  <li><a href="#tablas-de-referencia" id="toc-tablas-de-referencia" class="nav-link" data-scroll-target="#tablas-de-referencia"><span class="header-section-number">7.5</span> Tablas de referencia</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Otros formatos</h2><ul><li><a href="report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="report.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Implementación de CISO-18 y su impacto estadístico</h1>
+<p class="subtitle lead">Plantilla Quarto para Word (estructura base)</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alvaro Marcelo Krause Salazar </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">26 de enero de 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Nota</strong>: Esta plantilla usa la denominación <strong>CISO-18</strong> tal como la requieres. Si en algún momento necesitas alinearla con la nomenclatura internacional (<strong>ICSE‑18</strong>), basta con reemplazar el término en los encabezados.</p>
+</div>
+</div>
+<section id="presentación" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Presentación</h1>
+<blockquote class="blockquote">
+<p><strong>Objetivo</strong>. Este documento presenta la adopción y aplicación de la clasificación <strong>CISO‑18</strong> en la ENE, proponiendo el algoritmo operativo, la identificación y caracterización de <strong>contratistas dependientes</strong>, y el impacto esperado en la medición de la <strong>informalidad laboral</strong>.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Estructura</strong>. El informe se organiza en seis capítulos y un anexo de referencias.</p>
+</blockquote>
+</section>
+<section id="antecedentes-y-aspectos-conceptuales-de-la-clasificación-ciso-18" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Antecedentes y aspectos conceptuales de la clasificación CISO-18</h1>
+<ul>
+<li>Contexto CIET‑20 (2018) y resoluciones sobre relaciones de trabajo.</li>
+<li>Fundamentos conceptuales: <strong>tipo de autoridad</strong> y <strong>riesgo económico</strong>.</li>
+<li>Relación con CISeT‑18 (todas las formas de trabajo) y con CISE‑93.</li>
+</ul>
+</section>
+<section id="definición-del-algoritmo-para-la-aplicación-de-la-ciso-18" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Definición del algoritmo para la aplicación de la CISO-18</h1>
+<section id="preguntas-existentes" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="preguntas-existentes"><span class="header-section-number">3.1</span> Preguntas existentes</h2>
+<ul>
+<li>Inventario de variables ENE relevantes (listar nombres de variables y periodos de vigencia).</li>
+<li>Mapeo de preguntas a dimensiones de <strong>autoridad</strong>/<strong>riesgo económico</strong>.</li>
+</ul>
+</section>
+<section id="preguntas-incorporadas-al-cuestionario" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="preguntas-incorporadas-al-cuestionario"><span class="header-section-number">3.2</span> Preguntas incorporadas al cuestionario</h2>
+<ul>
+<li>Nuevos ítems para capturar <strong>dependencia económica</strong>, <strong>control del trabajo</strong>, <strong>propiedad de medios</strong>, <strong>número/tipo de clientes</strong>.</li>
+<li>Especificar texto de pregunta, universo, saltos lógicos y opciones de respuesta.</li>
+</ul>
+</section>
+<section id="preguntas-previamente-existentes-en-la-encuesta" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="preguntas-previamente-existentes-en-la-encuesta"><span class="header-section-number">3.3</span> Preguntas previamente existentes en la encuesta</h2>
+<ul>
+<li>Ítems históricos reutilizables y su recodificación.</li>
+<li>Consideraciones de <strong>comparabilidad</strong> temporal.</li>
+</ul>
+</section>
+<section id="definición-del-algoritmo-para-la-aplicación-de-la-ciso-18-1" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="definición-del-algoritmo-para-la-aplicación-de-la-ciso-18-1"><span class="header-section-number">3.4</span> 2.4. Definición del algoritmo para la aplicación de la CISO-18</h2>
+<ul>
+<li>Reglas de <strong>edición/validación</strong>.</li>
+<li>Filtros previos y población objetivo.</li>
+<li>Árbol de decisión y <strong>prioridad de reglas</strong> (pseudocódigo/quarto code chunk a insertar).</li>
+</ul>
+</section>
+<section id="análisis-estadístico-para-evaluar-las-variables-de-dependencia" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="análisis-estadístico-para-evaluar-las-variables-de-dependencia"><span class="header-section-number">3.5</span> 2.5. Análisis estadístico para evaluar las variables de dependencia</h2>
+<ul>
+<li>Evaluación de <strong>confiabilidad</strong> y <strong>validez</strong> (p.&nbsp;ej., VIF, correlaciones, modelos logit/probit auxiliares).</li>
+<li>Sensibilidad a umbrales (análisis de <strong>robustez</strong>).</li>
+</ul>
+</section>
+<section id="tratamiento-de-trabajadores-en-plataformas-digitales" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="tratamiento-de-trabajadores-en-plataformas-digitales"><span class="header-section-number">3.6</span> 2.6. Tratamiento de trabajadores en plataformas digitales</h2>
+<ul>
+<li>Criterios de identificación.</li>
+<li>Casos fronterizos y clasificación prioritaria bajo CISO‑18.</li>
+</ul>
+</section>
+</section>
+<section id="estimación-y-caracterización-de-contratistas-dependientes" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 3. Estimación y caracterización de contratistas dependientes</h1>
+<section id="identificación-contratistas-dependientes-dentro-de-los-trabajadores-por-cuenta-propia" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="identificación-contratistas-dependientes-dentro-de-los-trabajadores-por-cuenta-propia"><span class="header-section-number">4.1</span> 3.1. Identificación contratistas dependientes dentro de los trabajadores por cuenta propia</h2>
+<ul>
+<li>Algoritmo de detección y reglas de reasignación.</li>
+<li>Indicadores de dependencia económica.</li>
+</ul>
+</section>
+<section id="identificación-contratistas-dependientes-dentro-de-los-trabajadores-asalariados" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="identificación-contratistas-dependientes-dentro-de-los-trabajadores-asalariados"><span class="header-section-number">4.2</span> 3.2. Identificación contratistas dependientes dentro de los trabajadores asalariados</h2>
+<ul>
+<li>Casos de <strong>subordinación contractual</strong> vs.&nbsp;<strong>dependencia económica</strong>.</li>
+</ul>
+</section>
+<section id="estimación-total-de-contratistas-dependientes" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="estimación-total-de-contratistas-dependientes"><span class="header-section-number">4.3</span> 3.3. Estimación total de contratistas dependientes</h2>
+<ul>
+<li>Serie trimestral/anual, supuestos y métodos de estimación.</li>
+</ul>
+</section>
+<section id="impacto-en-la-clasificación-final-cise-93-vs-ciso-18" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="impacto-en-la-clasificación-final-cise-93-vs-ciso-18"><span class="header-section-number">4.4</span> 3.4. Impacto en la clasificación final CISE-93 vs CISO-18</h2>
+<ul>
+<li>Reasignaciones netas por categoría.</li>
+<li>Efectos sobre tasas y composiciones.</li>
+</ul>
+</section>
+<section id="caracterización-de-los-contratistas-dependientes" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="caracterización-de-los-contratistas-dependientes"><span class="header-section-number">4.5</span> 3.5. Caracterización de los contratistas dependientes</h2>
+<ul>
+<li>Distribuciones por <strong>sexo</strong>, <strong>edad</strong>, <strong>nacionalidad</strong>, <strong>región</strong>, <strong>rama de actividad</strong>, <strong>oficio</strong> e <strong>informalidad</strong>.</li>
+</ul>
+</section>
+</section>
+<section id="impacto-en-la-medición-de-informalidad-laboral" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 4. Impacto en la medición de informalidad laboral</h1>
+<section id="criterios-adoptados-en-la-ene-desde-2017" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="criterios-adoptados-en-la-ene-desde-2017"><span class="header-section-number">5.1</span> 4.1. Criterios adoptados en la ENE desde 2017</h2>
+<ul>
+<li>Definición operativa y sus limitaciones.</li>
+</ul>
+</section>
+<section id="nueva-resolución-sobre-estadísticas-de-economía-informal-21-ciet-2023" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="nueva-resolución-sobre-estadísticas-de-economía-informal-21-ciet-2023"><span class="header-section-number">5.2</span> 4.2. Nueva resolución sobre estadísticas de Economía Informal – 21° CIET 2023</h2>
+<ul>
+<li>Cambios conceptuales y su articulación con CISO‑18.</li>
+</ul>
+</section>
+<section id="informalidad-en-contratistas-dependientes-proveniente-de-los-tcp" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="informalidad-en-contratistas-dependientes-proveniente-de-los-tcp"><span class="header-section-number">5.3</span> 4.3. Informalidad en contratistas dependientes proveniente de los TCP</h2>
+<ul>
+<li>Procedimiento de identificación y resultados esperados.</li>
+</ul>
+</section>
+<section id="implementación-ciso-18-e-impacto-medición-de-informalidad-laboral" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="implementación-ciso-18-e-impacto-medición-de-informalidad-laboral"><span class="header-section-number">5.4</span> 4.4. Implementación CISO-18 e impacto medición de informalidad laboral</h2>
+<ul>
+<li>Escenarios de impacto (mínimo/base/máximo) y notas metodológicas.</li>
+</ul>
+</section>
+</section>
+<section id="construcción-tercer-nivel-jerárquico-ciso-18" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 5. Construcción tercer nivel jerárquico CISO-18</h1>
+<section id="empleadores-y-trabajadores-por-cuenta-propia" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="empleadores-y-trabajadores-por-cuenta-propia"><span class="header-section-number">6.1</span> 5.1. Empleadores y Trabajadores por cuenta propia</h2>
+<ul>
+<li>Criterios para sub‑clasificación y variables auxiliares.</li>
+</ul>
+</section>
+<section id="contratistas-dependientes" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="contratistas-dependientes"><span class="header-section-number">6.2</span> 5.2. Contratistas dependientes</h2>
+<ul>
+<li>Subtipificación por <strong>fuente principal de ingresos</strong>, <strong>número de clientes</strong> y <strong>grado de control</strong>.</li>
+</ul>
+</section>
+<section id="asalariados-privados-públicos-y-servicio-doméstico" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="asalariados-privados-públicos-y-servicio-doméstico"><span class="header-section-number">6.3</span> 5.3. Asalariados privados, públicos y servicio doméstico</h2>
+<ul>
+<li>Definiciones y criterios de separación operativa.</li>
+</ul>
+</section>
+<section id="caracterización-del-tercer-nivel-jerárquico-ciso-18" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="caracterización-del-tercer-nivel-jerárquico-ciso-18"><span class="header-section-number">6.4</span> 5.4. Caracterización del tercer nivel jerárquico CISO-18</h2>
+<ul>
+<li>Indicadores descriptivos y tabulados estándar.</li>
+</ul>
+</section>
+<section id="tercer-nivel-jerárquico-tipo-de-contrato-definido" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="tercer-nivel-jerárquico-tipo-de-contrato-definido"><span class="header-section-number">6.5</span> 5.5. Tercer nivel jerárquico: Tipo de contrato definido</h2>
+<ul>
+<li>Permanente, plazo fijo, corto plazo/ocasional, aprendizaje/práctica remunerada.</li>
+</ul>
+</section>
+<section id="recomendaciones-sobre-el-análisis-del-tercer-nivel-jerárquico-de-la-ciso-18" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="recomendaciones-sobre-el-análisis-del-tercer-nivel-jerárquico-de-la-ciso-18"><span class="header-section-number">6.6</span> 5.6. Recomendaciones sobre el análisis del tercer nivel jerárquico de la CISO-18</h2>
+<ul>
+<li>Buenas prácticas, advertencias y notas de comparabilidad.</li>
+</ul>
+</section>
+</section>
+<section id="plan-de-difusión" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> 6. Plan de difusión</h1>
+<section id="eje-1-difusión-público-experto-expertosinstituciones-comité-técnico-medios-de-comunicación-y-ciudadana" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="eje-1-difusión-público-experto-expertosinstituciones-comité-técnico-medios-de-comunicación-y-ciudadana"><span class="header-section-number">7.1</span> 6.1. Eje 1: Difusión público-experto (expertos/instituciones, comité técnico, medios de comunicación y ciudadana)</h2>
+<ul>
+<li>Estrategia y productos prioritarios.</li>
+</ul>
+</section>
+<section id="eje-2-difusión-de-insumos-boletín-bases-de-datos-tabulados" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="eje-2-difusión-de-insumos-boletín-bases-de-datos-tabulados"><span class="header-section-number">7.2</span> 6.2. Eje 2: Difusión de insumos (boletín, bases de datos, tabulados)</h2>
+<ul>
+<li>Calendario y especificaciones de publicación.</li>
+</ul>
+</section>
+<section id="eje-3-difusión-en-plataformas-banco-de-datos-ene-y-simel" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="eje-3-difusión-en-plataformas-banco-de-datos-ene-y-simel"><span class="header-section-number">7.3</span> 6.3. Eje 3: Difusión en plataformas (Banco de datos ENE y SIMEL)</h2>
+<ul>
+<li>Variables nuevas, metadatos y documentación.</li>
+</ul>
+</section>
+<section id="eje-4-difusión-información-complementaria-infografías-documentos-de-trabajo-y-separata-técnica" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="eje-4-difusión-información-complementaria-infografías-documentos-de-trabajo-y-separata-técnica"><span class="header-section-number">7.4</span> 6.4. Eje 4: Difusión información complementaria (infografías, documentos de trabajo y separata técnica)</h2>
+<ul>
+<li>Materiales de apoyo y mensajes clave.</li>
+</ul>
+<hr>
+</section>
+<section id="tablas-de-referencia" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="tablas-de-referencia"><span class="header-section-number">7.5</span> Tablas de referencia</h2>
+<div id="tbl-cise93" class="tbl-parent quarto-layout-panel anchored" data-tbl-cap="CISE-93: Grupos principales">
+<div class="panel-caption table-caption">
+<p><strong>Empleo independiente</strong><br>
+2. Empleadores<br>
+3. Trabajadores por cuenta propia<br>
+4. Trabajadores familiares auxiliares<br>
+5. Miembros de cooperativas de productores<br>
+6. No clasificados por situación en el empleo</p>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><strong>Tabla 1. CISE‑93 — Grupos principales</strong></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><strong>Empleo remunerado</strong><br>
+1. Empleados</p>
+</div>
+</div>
+</div>
+<div id="tbl-ciso18a" class="tbl-parent quarto-layout-panel anchored" data-tbl-cap="CISO-18 (tipo de autoridad): categorías">
+<div class="panel-caption table-caption">
+<p><strong>Trabajo familiar auxiliar en actividades de mercado</strong><br>
+- 51 — Trabajadores familiares auxiliares en actividades de mercado</p>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><strong>Tabla 2. Clasificación CISO‑18‑A (según tipo de autoridad)</strong></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><strong>Trabajadores independientes</strong><br>
+A1. Empleadores<br>
+- 11 — Empleadores en sociedades<br>
+- 12 — Empleadores en empresas del sector de los hogares<br>
+A2. Independientes sin empleados<br>
+- 21 — Gerentes‑propietarios en sociedades sin empleados<br>
+- 22 — Cuenta propia en empresas del sector de los hogares sin empleados</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><strong>Trabajadores dependientes</strong><br>
+B1. Contratistas dependientes<br>
+- 30 — Contratistas dependientes<br>
+B2. Empleados<br>
+- 41 — Permanentes<br>
+- 42 — Por tiempo determinado<br>
+- 43 — Corto plazo y ocasionales<br>
+- 44 — Aprendices, pasantes y personas en formación remunerados</p>
+</div>
+</div>
+</div>
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referencias</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+<div id="ref-fao2024foodinsecurity" class="csl-entry" role="listitem">
+FAO. (2024). <em>Estimation of the prevalence of moderate and severe food insecurity in Chilean municipalities using small area estimation methods</em>. Food; Agriculture Organization of the United Nations. <a href="https://doi.org/10.4060/cd1350en">https://doi.org/10.4060/cd1350en</a>
+</div>
+<div id="ref-gelman2013bayesian" class="csl-entry" role="listitem">
+Gelman, A., Carlin, J. B., Stern, H. S., &amp; Dunson, D. B. (2013). <em>Bayesian Data Analysis</em>. CRC Press.
+</div>
+<div id="ref-pereira2011smallareas" class="csl-entry" role="listitem">
+Pereira, L. N., Mendes, J. M., &amp; Coelho, P. S. (2011). Estimation of unemployment rates in small areas of Portugal: A best linear unbiased prediction approach versus a hierarchical Bayes approach. <em>Proceedings of the 17th European Young Statisticians Meeting</em>.
+</div>
+<div id="ref-rao2015small" class="csl-entry" role="listitem">
+Rao, J. N. K., &amp; Molina, I. (2015). <em>Small Area Estimation</em>. Wiley.
+</div>
+<div id="ref-sparks2014bayesian" class="csl-entry" role="listitem">
+Sparks, C., &amp; Campbell, J. (2014). An Application of Bayesian Methods to Small Area Poverty Rate Estimates. <em>Population Research and Policy Review</em>, <em>33</em>, 455-477. <a href="https://doi.org/10.1007/s11113-013-9303-8">https://doi.org/10.1007/s11113-013-9303-8</a>
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
